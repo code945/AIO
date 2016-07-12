@@ -1,0 +1,17 @@
+<script>
+var ws = new WebSocket('ws://127.0.0.1:7272');
+ws.onopen = function(){
+	var init_data = '{"type":"init","task_id":"8888"}'; 
+    ws.send(init_data);
+};
+ws.onmessage = function(e){
+    console.log(e.data);
+    var data = eval("("+e.data+")");
+    switch(data['type']) {
+            // 服务端ping客户端
+        case 'ping':
+            ws.send('{"type":"pong"}');
+            break;
+    }
+};
+</script>

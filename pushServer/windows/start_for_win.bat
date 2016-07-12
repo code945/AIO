@@ -1,0 +1,2 @@
+php Applications\blog\start_register.php Applications\blog\start_gateway.php Applications\blog\start_businessworker.php Applications\blog\start_gateway.php Applications\blog\start_text_gateway.php
+pause
