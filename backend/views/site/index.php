@@ -13,10 +13,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="inner">
                     <h3>150</h3>
 
-                    <p>订单</p>
+                    <p>注册用户</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-tag"></i>
+                    <i class="fa fa-user"></i>
                 </div>
                 <a href="#" class="small-box-footer">查看详情 <i class="fa fa-arrow-circle-right"></i></a>
             </div>
@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="inner">
                     <h3>2.3 w</h3>
 
-                    <p>注册用户</p>
+                    <p>订单</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-user"></i>

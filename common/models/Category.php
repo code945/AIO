@@ -80,4 +80,17 @@ class Category extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Post::className(), ['category_id' => 'id']);
     }
+
+    /**
+     * @return array
+     */
+    public static function getItems()
+    {
+        $models = Category::find()->all();
+        $data = [];
+        foreach($models as $model){
+            $data[$model->id] = $model->name;
+        }
+        return $data;
+    }
 }
