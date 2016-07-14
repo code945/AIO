@@ -25,7 +25,8 @@
         "aferrandini/phpqrcode": "^1.0",
         "yiisoft/yii2-redis": "^2.0",
         "kartik-v/yii2-editable": "1.7.x-dev",
-        "kartik-v/yii2-widgets": "3.4.0.x-dev"
+        "kartik-v/yii2-widgets": "3.4.0.x-dev",
+        "mdmsoft/yii2-admin": "3.2"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

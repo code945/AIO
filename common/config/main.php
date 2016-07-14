@@ -10,7 +10,10 @@ return [
         '@wechatQrTimer' => '30000',
     ],
     'components' => [
-		'db' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
+        ],
+        'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=localhost;dbname=blog',
             'username' => 'root',
