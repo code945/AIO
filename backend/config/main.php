@@ -77,10 +77,10 @@ return [
         'allowActions' => [
             //这里是允许访问的action
             //controller/action
-//            '/site/login',
-//            'site/captcha',
-//            '/site/logout'
-        '*'
+            '/site/login',
+            'site/captcha',
+            '/site/logout',
+            '/site/error'
         ]
     ],
     'params' => $params,
