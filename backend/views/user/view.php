@@ -13,11 +13,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-view">
  
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('更新', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('删除', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '确认删除?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -33,8 +33,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'password_reset_token',
             'email:email',
             'status',
-            'created_at',
-            'updated_at',
+            'nick_name',
+            'real_name',
+            'phone',
+            'wechat_id',
+            'wechat_name',
+            'qq',
+            'qq_name',
+            'header_img',
+            'gender',
+            'birthday',
+            'option:ntext',
+            'last_login',
+            'join_at',
         ],
     ]) ?>
 
