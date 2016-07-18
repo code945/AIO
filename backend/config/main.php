@@ -12,6 +12,9 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log','admin'],
     'modules' => [
+        'user' =>  [
+            'class' => 'modules\user\Module', 
+        ],
         'redactor' => [
             'class' => 'yii\redactor\RedactorModule',
             'uploadDir' => __DIR__ .'/../../uploads',
