@@ -21,9 +21,7 @@ class AjaxController extends AjaxBaseController
 {
   
     public function actionResetPwd()
-    {
-        $request = Yii::$app->request;
-        $post = $request->post();
+    { 
         $id = HttpHelper::getParams('id');
         Yii::$app->response->format = Response::FORMAT_JSON;
         return ['error_code'=>1,'msg'=>'success']; 
@@ -33,9 +31,7 @@ class AjaxController extends AjaxBaseController
     public function actionLogin()
     {
         $error_code = 0;
-        $msg = '';
-        $request = Yii::$app->request;
-        $post = $request->post();
+        $msg = ''; 
         $username = HttpHelper::getParams('username');
         $pwd = HttpHelper::getParams('password');
         $remember = HttpHelper::getParams('remember');

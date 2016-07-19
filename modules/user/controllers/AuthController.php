@@ -20,7 +20,13 @@ use yii\web\Response;
 class AuthController extends Controller
 {
 
+    public function actionActiveEmail()
+    {
+        $user_id = HttpHelper::getParams('id');
+        $token = HttpHelper::getParams('token');
 
+        return $this->goHome();
+    }
 
     /**
      * Logs in a user.
@@ -68,6 +74,8 @@ class AuthController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
+                $token = md5(uniqid(rand()));
+                Yii::$app->redis->setex('SignUpEmailToken:'.$user->id, 300,$token);
                 $r = Yii::$app->mailer->compose()
                         ->setFrom('lhx880619@163.com')
                         ->setTo('lhx880619@163.com')
