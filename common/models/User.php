@@ -120,9 +120,19 @@ class User extends ActiveRecord  implements IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByUsername($username,$seacrhAll = false)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        if($seacrhAll)
+        {
+            $query = static::find()
+                ->orFilterWhere(['username' => $username])
+                ->orFilterWhere(['phone' => $username])
+                ->orFilterWhere(['email' => $username])
+                ->one();
+            return $query;
+        }
+        else
+            return static::findOne(['username' => $username]);
     }
 
     /**
