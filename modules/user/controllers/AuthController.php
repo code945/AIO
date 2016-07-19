@@ -22,9 +22,16 @@ class AuthController extends Controller
 
     public function actionActiveEmail()
     {
-        $user_id = HttpHelper::getParams('id');
+        $user_id = HttpHelper::getParams('userid');
         $token = HttpHelper::getParams('token');
-
+        $redisToken = Yii::$app->redis->get('SignUpEmailToken:'.$user_id);
+        if($redisToken != null && $redisToken == $token)
+        {
+            $user = User::findOne($user_id);
+            $user->status = User::STATUS_ACTIVE;
+            $user->save();
+            Yii::$app->user->login($user);
+        } 
         return $this->goHome();
     }
 
@@ -75,12 +82,19 @@ class AuthController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 $token = md5(uniqid(rand()));
+                $url = 'http://www.aio.com/user/auth/active-email?userid='.$user->id.'&token='.$token;
+                $mail = '
+                尊敬的用户，您好！
+                恭喜您已经完成大部分注册流程，您可以点击下面的链接完成账户激活：
+                <a href="'.$url.'">'.$url.'</a>
+                ';
+
                 Yii::$app->redis->setex('SignUpEmailToken:'.$user->id, 300,$token);
                 $r = Yii::$app->mailer->compose()
                         ->setFrom('lhx880619@163.com')
-                        ->setTo('lhx880619@163.com')
-                        ->setSubject('Message subject')
-                        ->setHtmlBody('<b>HTML content</b>')
+                        ->setTo($model->email)
+                        ->setSubject('注册激活邮件')
+                        ->setHtmlBody($mail)
                         ->send();
                 return $this->render('signupEmail', [
                     'model' => $model,
