@@ -29,8 +29,8 @@ class m160718_091255_create_user_table extends Migration
             'gender'=>"varchar(500)  COMMENT '性别'",
             'birthday'=>"varchar(200)  COMMENT '生日'",
             'option'=>"text  COMMENT '其他扩展'",
-            'last_login'=>"int(10) unsigned COMMENT '上次登录时间'",
-            'join_at'=>"int(10) unsigned COMMENT '注册时间'"
+            'last_login'=>"datetime DEFAULT NOW() COMMENT '上次登录时间'",
+            'join_at'=>"datetime DEFAULT NOW() COMMENT '注册时间'"
         ] );
     }
 

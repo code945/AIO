@@ -12,9 +12,14 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'language'=>'zh-CN',
+    'modules' => [
+        'user' =>  [
+            'class' => 'modules\user\Module',
+        ],
+    ],
     'components' => [
         'user' => [
-            'identityClass' => 'frontend\models\User',
+            'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => [
                 'name' => '_frontendUser', // unique for frontend
