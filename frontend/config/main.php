@@ -16,12 +16,15 @@ return [
         'user' =>  [
             'class' => 'modules\user\Module',
         ],
+        'member' =>  [
+            'class' => 'modules\member\Module',
+        ],
     ],
     'components' => [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'loginUrl'=>'user/auth/login',
+            'loginUrl'=>'/user/auth/login',
             'identityCookie' => [
                 'name' => '_frontendUser', // unique for frontend
             ]

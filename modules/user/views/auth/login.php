@@ -18,7 +18,7 @@ function login()
          $.post("/user/ajax/login",{"username":$("#input_username").val(),"password": $("#input_password").val()},function(result){
             if(result.error_code==1)
             {
-                 
+                 location.href="'.Yii::$app->user->returnUrl.'"
             }
             $("#msg").html(result.msg);
             $("#tips").show(); 
