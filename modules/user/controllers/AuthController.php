@@ -8,9 +8,13 @@ use common\models\User;
 use common\models\UserSearchModel;
 use kartik\grid\EditableColumnAction;
 use modules\user\models\LoginForm;
+use modules\user\models\PasswordResetRequestForm;
+use modules\user\models\ResetPasswordForm;
 use modules\user\models\SignupForm;
 use Yii;
+use yii\base\InvalidParamException;
 use yii\helpers\ArrayHelper;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Response;
 
@@ -20,6 +24,12 @@ use yii\web\Response;
 class AuthController extends Controller
 {
 
+    
+    
+    /**
+     * user active account by email
+     * @return Response
+     */
     public function actionActiveEmail()
     {
         $user_id = HttpHelper::getParams('userid');
@@ -81,20 +91,12 @@ class AuthController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
-                $token = md5(uniqid(rand()));
-                $url = 'http://www.aio.com/user/auth/active-email?userid='.$user->id.'&token='.$token;
-                $mail = '
-                尊敬的用户，您好！
-                恭喜您已经完成大部分注册流程，您可以点击下面的链接完成账户激活：
-                <a href="'.$url.'">'.$url.'</a>
-                ';
-
+                $token = Yii::$app->security->generateRandomString();
                 Yii::$app->redis->setex('SignUpEmailToken:'.$user->id, 300,$token);
-                $r = Yii::$app->mailer->compose()
-                        ->setFrom('lhx880619@163.com')
+                $r = Yii::$app->mailer->compose('activeEmail',['user'=>$user,'token'=>$token])
+                        ->setFrom(Yii::$app->params['defaultEmail'])
                         ->setTo($model->email)
                         ->setSubject('注册激活邮件')
-                        ->setHtmlBody($mail)
                         ->send();
                 return $this->render('signupEmail', [
                     'model' => $model,

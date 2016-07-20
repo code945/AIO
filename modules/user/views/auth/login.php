@@ -50,7 +50,7 @@ $this->registerJs($js, View::POS_END);
                 <p id="msg">Warning alert preview. This alert is dismissable.</p>
             </div>
             <button class="btn btn-default" onclick="login()">Login</button>
-
+            <p class="pull-right" ><a href="/user/auth/request-password-reset">忘记密码?找回</a></p>
         </div>
     </div>
 </div>
