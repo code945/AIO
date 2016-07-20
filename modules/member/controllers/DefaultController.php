@@ -2,6 +2,8 @@
 
 namespace modules\member\controllers;
 
+use modules\member\models\ChpwdForm;
+use Yii;
 use yii\web\Controller;
 
 /**
@@ -17,4 +19,19 @@ class DefaultController extends MemberBaseController
     {
         return $this->render('index');
     }
+
+
+    public function actionChpwd()
+    {
+        $model = new ChpwdForm();
+        if ($model->load(Yii::$app->request->post()) && $model->ChangePassword() ) {
+            Yii::$app->getSession()->setFlash('success', '保存成功');
+            $this->refresh();
+        } else {
+            return $this->render('chpwd', [
+                'model' => $model,
+            ]);
+        }
+    }
+    
 }
