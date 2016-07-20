@@ -1,6 +1,7 @@
 <?php
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'name'=>'AIO',
     'aliases' => [
         '@frontendUrl' => 'http://www.linhongxu.com',
         '@backendUrl' => 'http://admin.linhongxu.com',
