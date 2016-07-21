@@ -15,6 +15,9 @@ return [
         'user' =>  [
             'class' => 'modules\user\Module', 
         ],
+        'wechat' =>  [
+            'class' => 'modules\wechat\Module',
+        ],
         'redactor' => [
             'class' => 'yii\redactor\RedactorModule',
             'uploadDir' => __DIR__ .'/../../uploads',
