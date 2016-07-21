@@ -1,0 +1,554 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head >
+    <title></title>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/emotion/emotion.js" type="text/javascript"></script>
+    <link href="js/emotion/emotion.css" rel="stylesheet" type="text/css" />
+   <script>
+       
+       $(function () {
+           var $textarea = $(".editArea textarea");
+           var $contentDiv = $(".editArea div");
+
+           var num = 0,total =104,rows = 7,cols = 15;
+           var table = document.createElement('table');
+           for (var i = 0; i < rows; i++) {
+               var row = table.insertRow(i);
+               for (var j = 0; j < cols; j++) {
+                   if (num < total) {
+                       var item = row.insertCell(j);
+                       $(item).html('<div class="eItem" style="background-position: -' + (24 * num) + 'px 0;" data-title="' + Emotion.data[num] + '" data-gifurl="js/emotion/imgs/' + num + '.gif"></div>');
+                       num++;
+                   }
+                   else {
+                       break;
+                   }
+               }
+           }
+           $(".emotions").append(table);
+
+
+           $(".functionBar .iconEmotion").click(function () {
+               //Emotion.saveRange();
+               $(".emotions").show();
+           });
+           $(".emotions").hover(function () {
+
+           }, function () {
+               $(".emotions").fadeOut();
+           });
+           $(".emotions .eItem").mouseenter(function () {
+               $(".emotionsGif").html('<img src="' + $(this).attr("data-gifurl") + '">');
+           }).click(function () {
+               Emotion.insertHTML('<img src="' + $(this).attr("data-gifurl") + '"' + 'alt="mo-' + $(this).attr("data-title") + '"' + "/>");
+               $(".emotions").fadeOut();
+               $textarea.trigger("contentValueChange");
+           });
+           $contentDiv.bind("keyup", function () {
+               $textarea.trigger("contentValueChange");
+               Emotion.saveRange();
+           }).bind("keydown", function (e) {
+               switch (e.keyCode) {
+                   case 8:
+                       var t = Emotion.getSelection();
+                       t.type && t.type.toLowerCase() === "control" && (e.preventDefault(), t.clear());
+                       break;
+                   case 13:
+                       e.preventDefault(),
+					Emotion.insertHTML("<br/>");
+                       Emotion.saveRange();
+               }
+           }).bind("mouseup", function (e) {
+               Emotion.saveRange();
+               if ($.browser.msie && />$/.test($contentDiv.html())) {
+                   var n = Emotion.getSelection();
+                   n.extend && (n.extend(cursorNode, cursorNode.length), n.collapseToEnd()),
+				Emotion.saveRange();
+                   Emotion.insertHTML(" ");
+               }
+           });
+           $textarea.bind("contentValueChange", function () {
+               $(this).val(Emotion.replaceInput($contentDiv.html()));
+           });
+           $contentDiv.html(Emotion.replaceEmoji($contentDiv.html()));
+
+
+           var data_content = $("#content").val();
+           if (data_content.length > 0) {
+               $("textarea[name='content']").val(data_content);
+               $contentDiv.html(Emotion.replaceEmoji(data_content));
+
+           }
+
+           $("#bsubmit").click(function () {
+               if ($.trim($("#content").val()).length == 0) {
+                   return false;
+               }
+           });
+
+
+
+       });
+</script>
+</head>
+<body>
+ 
+    <div class="txtArea">
+                                            <div class="functionBar">
+                                                <div class="opt">
+                                                    <a class="icon18C iconEmotion block" href="javascript:;">±Ì«È</a>
+                                                </div>
+                                                <div class="tip"></div>
+                                                <div class="emotions">
+                                                    <table cellspacing="0" cellpadding="0">
+                                                        <tbody><!--
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: 0px 0;" data-title="Œ¢–¶" data-gifurl="js/emotion/imgs/0.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -24px 0;" data-title="∆≤◊Ï" data-gifurl="js/emotion/imgs/1.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -48px 0;" data-title="…´" data-gifurl="js/emotion/imgs/2.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -72px 0;" data-title="∑¢¥Ù" data-gifurl="js/emotion/imgs/3.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -96px 0;" data-title="µ√“‚" data-gifurl="js/emotion/imgs/4.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -120px 0;" data-title="¡˜¿·" data-gifurl="js/emotion/imgs/5.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -144px 0;" data-title="∫¶–ﬂ" data-gifurl="js/emotion/imgs/6.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -168px 0;" data-title="±’◊Ï" data-gifurl="js/emotion/imgs/7.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -192px 0;" data-title="ÀØ" data-gifurl="js/emotion/imgs/8.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -216px 0;" data-title="¥Ûøﬁ" data-gifurl="js/emotion/imgs/9.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -240px 0;" data-title="ﬁœﬁŒ" data-gifurl="js/emotion/imgs/10.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -264px 0;" data-title="∑¢≈≠" data-gifurl="js/emotion/imgs/11.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -288px 0;" data-title="µ˜∆§" data-gifurl="js/emotion/imgs/12.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -312px 0;" data-title="ﬂ⁄—¿" data-gifurl="js/emotion/imgs/13.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -336px 0;" data-title="æ™—»" data-gifurl="js/emotion/imgs/14.gif">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -360px 0;" data-title="ƒ—π˝" data-gifurl="js/emotion/imgs/15.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -384px 0;" data-title="ø·" data-gifurl="js/emotion/imgs/16.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -408px 0;" data-title="¿‰∫π" data-gifurl="js/emotion/imgs/17.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -432px 0;" data-title="◊•øÒ" data-gifurl="js/emotion/imgs/18.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -456px 0;" data-title="Õ¬" data-gifurl="js/emotion/imgs/19.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -480px 0;" data-title="Õµ–¶" data-gifurl="js/emotion/imgs/20.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -504px 0;" data-title="ø…∞Æ" data-gifurl="js/emotion/imgs/21.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -528px 0;" data-title="∞◊—€" data-gifurl="js/emotion/imgs/22.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -552px 0;" data-title="∞¡¬˝" data-gifurl="js/emotion/imgs/23.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -576px 0;" data-title="º¢∂ˆ" data-gifurl="js/emotion/imgs/24.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -600px 0;" data-title="¿ß" data-gifurl="js/emotion/imgs/25.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -624px 0;" data-title="æ™ø÷" data-gifurl="js/emotion/imgs/26.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -648px 0;" data-title="¡˜∫π" data-gifurl="js/emotion/imgs/27.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -672px 0;" data-title="∫©–¶" data-gifurl="js/emotion/imgs/28.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -696px 0;" data-title="¥Û±¯" data-gifurl="js/emotion/imgs/29.gif">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -720px 0;" data-title="∑‹∂∑" data-gifurl="js/emotion/imgs/30.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -744px 0;" data-title="÷‰¬Ó" data-gifurl="js/emotion/imgs/31.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -768px 0;" data-title="“…Œ " data-gifurl="js/emotion/imgs/32.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -792px 0;" data-title="–Í" data-gifurl="js/emotion/imgs/33.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -816px 0;" data-title="‘Œ" data-gifurl="js/emotion/imgs/34.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -840px 0;" data-title="’€ƒ•" data-gifurl="js/emotion/imgs/35.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -864px 0;" data-title="À•" data-gifurl="js/emotion/imgs/36.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -888px 0;" data-title="˜º˜√" data-gifurl="js/emotion/imgs/37.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -912px 0;" data-title="«√¥Ú" data-gifurl="js/emotion/imgs/38.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -936px 0;" data-title="‘Ÿº˚" data-gifurl="js/emotion/imgs/39.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -960px 0;" data-title="≤¡∫π" data-gifurl="js/emotion/imgs/40.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -984px 0;" data-title="øŸ±«" data-gifurl="js/emotion/imgs/41.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1008px 0;" data-title="πƒ’∆" data-gifurl="js/emotion/imgs/42.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1032px 0;" data-title="Ù‹¥Û¡À" data-gifurl="js/emotion/imgs/43.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1056px 0;" data-title="ªµ–¶" data-gifurl="js/emotion/imgs/44.gif">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1080px 0;" data-title="◊Û∫ﬂ∫ﬂ" data-gifurl="js/emotion/imgs/45.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1104px 0;" data-title="”“∫ﬂ∫ﬂ" data-gifurl="js/emotion/imgs/46.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1128px 0;" data-title="π˛«∑" data-gifurl="js/emotion/imgs/47.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1152px 0;" data-title="±… ”" data-gifurl="js/emotion/imgs/48.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1176px 0;" data-title="ŒØ«¸" data-gifurl="js/emotion/imgs/49.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1200px 0;" data-title="øÏøﬁ¡À" data-gifurl="js/emotion/imgs/50.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1224px 0;" data-title="“ıœ’" data-gifurl="js/emotion/imgs/51.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1248px 0;" data-title="«◊«◊" data-gifurl="js/emotion/imgs/52.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1272px 0;" data-title="œ≈" data-gifurl="js/emotion/imgs/53.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1296px 0;" data-title="ø…¡Ø" data-gifurl="js/emotion/imgs/54.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1320px 0;" data-title="≤Àµ∂" data-gifurl="js/emotion/imgs/55.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1344px 0;" data-title="Œ˜πœ" data-gifurl="js/emotion/imgs/56.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1368px 0;" data-title="∆°æ∆" data-gifurl="js/emotion/imgs/57.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1392px 0;" data-title="¿∫«Ú" data-gifurl="js/emotion/imgs/58.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1416px 0;" data-title="∆π≈“" data-gifurl="js/emotion/imgs/59.gif">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1440px 0;" data-title="øß∑»" data-gifurl="js/emotion/imgs/60.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1464px 0;" data-title="∑π" data-gifurl="js/emotion/imgs/61.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1488px 0;" data-title="÷ÌÕ∑" data-gifurl="js/emotion/imgs/62.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1512px 0;" data-title="√µπÂ" data-gifurl="js/emotion/imgs/63.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1536px 0;" data-title="µÚ–ª" data-gifurl="js/emotion/imgs/64.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1560px 0;" data-title=" æ∞Æ" data-gifurl="js/emotion/imgs/65.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1584px 0;" data-title="∞Æ–ƒ" data-gifurl="js/emotion/imgs/66.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1608px 0;" data-title="–ƒÀÈ" data-gifurl="js/emotion/imgs/67.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1632px 0;" data-title="µ∞∏‚" data-gifurl="js/emotion/imgs/68.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1656px 0;" data-title="…¡µÁ" data-gifurl="js/emotion/imgs/69.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1680px 0;" data-title="’®µØ" data-gifurl="js/emotion/imgs/70.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1704px 0;" data-title="µ∂" data-gifurl="js/emotion/imgs/71.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1728px 0;" data-title="◊„«Ú" data-gifurl="js/emotion/imgs/72.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1752px 0;" data-title="∆∞≥Ê" data-gifurl="js/emotion/imgs/73.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1776px 0;" data-title="±„±„" data-gifurl="js/emotion/imgs/74.gif">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1800px 0;" data-title="‘¬¡¡" data-gifurl="js/emotion/imgs/75.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1824px 0;" data-title="Ã´—Ù" data-gifurl="js/emotion/imgs/76.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1848px 0;" data-title="¿ÒŒÔ" data-gifurl="js/emotion/imgs/77.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1872px 0;" data-title="”µ±ß" data-gifurl="js/emotion/imgs/78.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1896px 0;" data-title="«ø" data-gifurl="js/emotion/imgs/79.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1920px 0;" data-title="»ı" data-gifurl="js/emotion/imgs/80.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1944px 0;" data-title="Œ’ ÷" data-gifurl="js/emotion/imgs/81.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1968px 0;" data-title=" §¿˚" data-gifurl="js/emotion/imgs/82.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -1992px 0;" data-title="±ß»≠" data-gifurl="js/emotion/imgs/83.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2016px 0;" data-title="π¥“˝" data-gifurl="js/emotion/imgs/84.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2040px 0;" data-title="»≠Õ∑" data-gifurl="js/emotion/imgs/85.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2064px 0;" data-title="≤Óæ¢" data-gifurl="js/emotion/imgs/86.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2088px 0;" data-title="∞Æƒ„" data-gifurl="js/emotion/imgs/87.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2112px 0;" data-title="NO" data-gifurl="js/emotion/imgs/88.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2136px 0;" data-title="OK" data-gifurl="js/emotion/imgs/89.gif">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2160px 0;" data-title="∞Æ«È" data-gifurl="js/emotion/imgs/90.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2184px 0;" data-title="∑…Œ«" data-gifurl="js/emotion/imgs/91.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2208px 0;" data-title="Ã¯Ã¯" data-gifurl="js/emotion/imgs/92.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2232px 0;" data-title="∑¢∂∂" data-gifurl="js/emotion/imgs/93.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2256px 0;" data-title="‚Êª" data-gifurl="js/emotion/imgs/94.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2280px 0;" data-title="◊™»¶" data-gifurl="js/emotion/imgs/95.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2304px 0;" data-title="øƒÕ∑" data-gifurl="js/emotion/imgs/96.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2328px 0;" data-title="ªÿÕ∑" data-gifurl="js/emotion/imgs/97.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2352px 0;" data-title="Ã¯…˛" data-gifurl="js/emotion/imgs/98.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2376px 0;" data-title="ª” ÷" data-gifurl="js/emotion/imgs/99.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2400px 0;" data-title="º§∂Ø" data-gifurl="js/emotion/imgs/100.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2424px 0;" data-title="Ω÷ŒË" data-gifurl="js/emotion/imgs/101.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2448px 0;" data-title="œ◊Œ«" data-gifurl="js/emotion/imgs/102.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2472px 0;" data-title="”“Ã´º´" data-gifurl="js/emotion/imgs/103.gif">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="eItem" style="background-position: -2496px 0;" data-title="◊ÛÃ´º´" data-gifurl="js/emotion/imgs/104.gif">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        -->
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="emotionsGif"></div>
+                                                </div>
+                                                <div class="clr"></div>
+                                            </div>
+
+
+                                            <div class="editArea">
+                                                <textarea name="content" id="content" style="display: none;" title="first tooltip"> </textarea>
+                                                <div contenteditable="true" style="overflow-y: auto; overflow-x: hidden;"></div>
+                                            </div>
+                                        </div>
+</body>
+</html>

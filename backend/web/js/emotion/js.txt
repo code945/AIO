@@ -1,0 +1,80 @@
+<script>
+
+	$(function(){
+		var $textarea = $(".editArea textarea");
+		var $contentDiv = $(".editArea div");
+		$(".functionBar .iconEmotion").click(function () {
+			//Emotion.saveRange();
+			$(".emotions").show();
+		});
+		$(".emotions").hover(function () {
+
+		}, function () {
+			$(".emotions").fadeOut();
+		});
+		$(".emotions .eItem").mouseenter(function () {
+			$(".emotionsGif").html('<img src="' + $(this).attr("data-gifurl") + '">');
+		}).click(function () {
+			Emotion.insertHTML('<img src="' + $(this).attr("data-gifurl") + '"' + 'alt="mo-' + $(this).attr("data-title") + '"' + "/>");
+			$(".emotions").fadeOut();
+			$textarea.trigger("contentValueChange");
+		});
+		$contentDiv.bind("keyup", function () {
+			$textarea.trigger("contentValueChange");
+			Emotion.saveRange();
+		}).bind("keydown", function (e) {
+			switch (e.keyCode) {
+				case 8:
+					var t = Emotion.getSelection();
+					t.type && t.type.toLowerCase() === "control" && (e.preventDefault(), t.clear());
+					break;
+				case 13:
+					e.preventDefault(),
+					Emotion.insertHTML("<br/>");
+					Emotion.saveRange();
+			}
+		}).bind("mouseup", function (e) {
+			Emotion.saveRange();
+			if ($.browser.msie && />$/.test($contentDiv.html())) {
+				var n = Emotion.getSelection();
+				n.extend && (n.extend(cursorNode, cursorNode.length), n.collapseToEnd()),
+				Emotion.saveRange();
+				Emotion.insertHTML(" ");
+			}
+		});
+		$textarea.bind("contentValueChange", function () {
+			$(this).val(Emotion.replaceInput($contentDiv.html()));
+		});
+		$contentDiv.html(Emotion.replaceEmoji($contentDiv.html()));
+
+
+		var data_content = $("#content").val();
+		if (data_content.length > 0) {
+			$("textarea[name='content']").val(data_content);
+			$contentDiv.html(Emotion.replaceEmoji(data_content));
+
+		}
+
+                                                $("#bsubmit").click(function () {
+                                                    if ($.trim($("#content").val()).length == 0) {
+                                                        G.ui.tips.info("回复内容不能为空");
+                                                        return false;
+                                                    }
+                                                });
+
+
+
+	});
+</script>
+
+ <script>
+		window.document.onkeydown = function(e) {
+			if ('BODY' == event.target.tagName.toUpperCase()) {
+				var e=e || event;
+　 				var currKey=e.keyCode || e.which || e.charCode;
+				if (8 == currKey) {
+					return false;
+				}
+			}
+		};
+	</script>
