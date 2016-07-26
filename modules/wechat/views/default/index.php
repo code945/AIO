@@ -38,9 +38,7 @@ $js='
             $.colorbox.resize();
 
         }
-    };
-    
-    $(".img-thumbnails [data-rel=\"colorbox\"]").colorbox(colorbox_params);
+    }; 
     
     function showlayer()
     { 
@@ -50,14 +48,48 @@ $js='
     
     $(document).ready(function () {
         $("#file-input").fileinput(
-        {
-            uploadUrl:"/upload",
-            previewFileType:\'any\',  
-            overwriteInitial:false, 
-        }
-        
-        );
+            {
+                uploadUrl:"/file/upload",
+                previewFileType:\'any\',  
+            } 
+        ).on(\'fileuploaded\', function(event) {
+                getfiles();
+                $("#tab_select").tab("show"); 
+            });
+         getfiles();
     });
+    
+    function deleteFile(btn)
+    {
+        var path = $(btn).attr("data-file");
+         $.post("/file/delete",{"file":path},function(r){getfiles()});
+    } 
+    
+    function getfiles()
+    {
+        $.get("/file/list",function(r){
+            $("#img-thumbnails").empty();
+            $.each(r.list,function(idx,item){
+                $("#img-thumbnails").append(
+                    \'<li>\'
+                    +\'    <a href="\'+item+\'"  data-rel="colorbox" title="Photo Title" >\'
+                    +\'        <img width="150" height="150" alt="150x150"   src="\'+item+\'">\'
+                    +\'    </a>\'
+                    +\'    <div class="tools tools-bottom"> \'
+                    +\'        <a href="#">\'
+                    +\'            <i class="fa fa-pencil"></i>\'
+                    +\'        </a>\' 
+                    +\'        <a href="#" data-file="\'+item+\'" onclick="deleteFile(this)">\'
+                    +\'            <i class="fa fa-times red"></i>\'
+                    +\'        </a>\'
+                    +\'    </div>\'
+                    +\'</li>\'
+                    );
+            })
+            $(".img-thumbnails [data-rel=\"colorbox\"]").colorbox(colorbox_params);
+        })
+    }
+    
  
 ';
 $this->registerJs($js, View::POS_END);
@@ -78,344 +110,12 @@ $this->registerJs($js, View::POS_END);
 
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#select" data-toggle="tab">选取图片</a></li>
-                            <li><a href="#upload" data-toggle="tab">上传新图</a></li>
+                            <li class="active" ><a href="#select" id="tab_select" data-toggle="tab" >选取图片</a></li>
+                            <li ><a href="#upload" data-toggle="tab" id="tab_upload">上传新图</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="active tab-pane" id="select">
                                 <ul id="img-thumbnails" class="img-thumbnails clearfix">
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title2" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title2" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title2" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title2" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title2" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title2" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title2" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="/images/login-bg.jpg"  data-rel="colorbox" title="Photo Title" >
-                                            <img width="150" height="150" alt="150x150"   src="/images/login-bg.jpg">
-                                        </a>
-                                        <div class="tools tools-bottom">
-                                            <a href="#">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-paperclip"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-
-                                            <a href="#">
-                                                <i class="fa fa-times red"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-
-
 
                                 </ul>
                             </div>

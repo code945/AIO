@@ -2,7 +2,9 @@
 
 namespace backend\controllers;
 
+use common\helper\HttpHelper;
 use common\models\TagSearchModel;
+use Symfony\Component\HttpFoundation\Tests\StringableObject;
 use Yii;
 use common\models\Tag;
 use yii\data\ActiveDataProvider;
@@ -14,7 +16,7 @@ use yii\web\Response;
 /**
  * TagController implements the CRUD actions for Tag model.
  */
-class UploadController extends Controller
+class FileController extends Controller
 {
     /**
      * @inheritdoc
@@ -41,7 +43,7 @@ class UploadController extends Controller
 
 
 
-    public function actionIndex()
+    public function actionUpload()
     {
         $r=[];
         // $p1 $p2是我们处理完图片之后需要返回的信息，其参数意义可参考上面的讲解
@@ -81,24 +83,55 @@ class UploadController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [
             'initialPreview' => $p1,
-            'initialPreviewConfig' => $p2,
-            'append' => true,
+            'initialPreviewConfig' => $p2, 
         ];
     }
 
 
     /**
      * Deletes an existing Tag model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * If deletion is successful, the browser will be redirected to the 'index' page
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionList()
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $files =  array();
+        $this->get_allfiles(Yii::getAlias("@uploads"),$files);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'list' => $files,
+        ];
     }
 
 
+    public function actionDelete()
+    {
+        $parm =  HttpHelper::getParams('file');
+        $file = str_replace(Yii::getAlias("@uploadUrl"),Yii::getAlias("@uploads"),$parm);
+        $result = @unlink ($file);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'result' => $result,
+        ];
+    }
+
+
+    /**
+     * @param $path string
+     * @param $files
+     */
+    function get_allfiles($path, &$files) {
+        if(is_dir($path)){
+            $dp = dir($path);
+            while ($file = $dp ->read()){
+                if($file !="." && $file !=".."){
+                    $this->get_allfiles($path."/".$file, $files);
+                }
+            }
+            $dp ->close();
+        }
+        if(is_file($path)){
+            $files[] = str_replace(Yii::getAlias("@uploads"),Yii::getAlias("@uploadUrl"),$path) ;
+        }
+    }
 }
