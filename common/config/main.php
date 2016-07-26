@@ -8,6 +8,8 @@ return [
         '@authQRCodeUrl' => '@frontendUrl/wechat/auth-qr/',
         '@authRequestUrl' => '@frontendUrl/wechat/auth-request',
         '@authCallbackUrl' => '@frontendUrl/wechat/auth-callback',
+        '@uploads' => dirname(dirname(__DIR__)) . '/uploads',
+        '@uploadUrl' => 'http://static.aio.com',
         '@wechatQrTimer' => '30000',
     ],
     'components' => [

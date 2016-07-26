@@ -38,8 +38,7 @@ return [
             'layout' => '@backend/views/layouts/main'
         ],
     ],
-    'aliases' => [
-        '@uploads' => '/path/to/foo',
+    'aliases' => [ 
         "@mdm/admin" => "@vendor/mdmsoft/yii2-admin",
     ],
     'language'=>'zh-CN',
